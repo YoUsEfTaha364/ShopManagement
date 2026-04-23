@@ -1,0 +1,5 @@
+D:\xampp2\htdocs\shopManagement\shopManagementSystem\public\assets\js\category.js
+D:\xampp2\htdocs\shopManagement\shopManagementSystem\public\assets\js\product.js
+D:\xampp2\htdocs\shopManagement\shopManagementSystem\public\assets\js\purchase.js
+D:\xampp2\htdocs\shopManagement\shopManagementSystem\public\assets\js\sale.js
+D:\xampp2\htdocs\shopManagement\shopManagementSystem\public\assets\js\supplier.js

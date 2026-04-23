@@ -1,0 +1,76 @@
+   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --primary-color: #5d5dff;
+    --secondary-color: #e0eaff;
+    --background-color: #f4f7f9;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --light-text: #999999;
+}
+
+
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    flex-grow: 1;
+}
+
+
+
+body {
+     font-family: "Libertinus Serif Display", system-ui;
+  font-weight: 400;
+  font-style: normal;
+    margin: 0;
+    padding: 0;
+    background-color:#ced4da;
+    color: var(--text-color);
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 150px;
+    background-color: var(--card-bg);
+    padding: 2rem 1.5rem;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100%;
+}
+
+
+.nav-menu {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-item {
+   font-size:16px;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 10px;
+    color: var(--light-text);
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    color:#111;
+}
+
+.nav-item i {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+
+
+body {
+    background-color: var(--background-color) !important;
+}
