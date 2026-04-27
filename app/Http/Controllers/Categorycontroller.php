@@ -31,8 +31,12 @@ class Categorycontroller extends Controller
      */
     public function store(Request $request)
     {
+        $validated=$request->validate([
+            "name"=>"required|string"
+        ]);
+
         Category::create([
-            "name"=>$request->name
+            "name"=>$validated["name"]
         ]);
 
         return redirect()->route('category.index')->with('success', 'Product added successfully!');
@@ -59,12 +63,15 @@ class Categorycontroller extends Controller
      */
     public function update(Request $request)
     {
-        $name=$request->name;
-        $id=$request->id;
+       
+          $validated=$request->validate([
+            "name"=>"required|string"
+        ]);
 
+
+        $id=$request->id;
         Category::find($id)->update([
-            "name"=>$name,
-            
+            "name"=>$validated["name"],
         ]);
 
           return redirect()->route("category.index");

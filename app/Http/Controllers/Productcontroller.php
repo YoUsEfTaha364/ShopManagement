@@ -37,35 +37,24 @@ class Productcontroller extends Controller
      */
     public function store(Request $request)
      {
+        
    
       
-          if ( $request->redirect == 'purchase') {
-            
-             Product::create([
-            "name"=>$request->name,
-            "category_id"=>$request->category_id,
-            "quantity"=>$request->count,
-            "bought_price"=>$request->b_price,
-            "sold_price"=>$request->s_price,
-           ]);
+        Product::create([
+            "name" => $request->name,
+            "category_id" => $request->category_id,
+            "quantity" => $request->count,
+            "bought_price" => $request->b_price,
+            "sold_price" => $request->s_price,
+        ]);
 
-        return redirect()->route('purchase.create')
-                         ->with('success', 'Product added and ready for purchase');
-    }else{
-                $data = json_decode($request->category, true); 
-         $categoryId = $data['id'];
-                  Product::create([
-            "name"=>$request->name,
-            "category_id"=>$categoryId,
-            "quantity"=>$request->count,
-            "bought_price"=>$request->b_price,
-            "sold_price"=>$request->s_price,
-           ]);
+        if ($request->redirect == 'purchase') {
+            return redirect()->route('purchase.create')
+                             ->with('success', 'Product added and ready for purchase');
+        }
 
-            return redirect()->route('product.index')
-                     ->with('success', 'Product created successfully');
-
-    }
+        return redirect()->route('product.index')
+                         ->with('success', 'Product created successfully');
 
     }
 
@@ -79,6 +68,7 @@ class Productcontroller extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+
     public function edit(string $id)
     {
         //
@@ -87,6 +77,8 @@ class Productcontroller extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+
     public function update(Request $request, string $id)
     {
         Product::find($id)->update([

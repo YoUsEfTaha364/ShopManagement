@@ -108,7 +108,7 @@
                             </select>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold text-secondary mb-2">رصيد افتتاحي</label>
+                            <label class="form-label fw-bold text-secondary mb-2">عدد </label>
                             <input name="count" type="number" id="count" min="1" class="form-control premium-input" required>
                         </div>
                         <div class="col-md-4 mb-3">

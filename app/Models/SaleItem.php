@@ -9,7 +9,7 @@ class SaleItem extends Model
    
      public $timestamps=false;
      protected $table = 'saleitems';
-     protected $fillable=["id","sale_id","product_id","quantity","price","subtotal"];
+     protected $fillable=["sale_id","product_id","quantity","price","bought_price","subtotal"];
 
      public  function sale(){
         return $this->belongsTo(Sale::class);

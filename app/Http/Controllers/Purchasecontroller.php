@@ -16,11 +16,8 @@ class Purchasecontroller extends Controller
      */
     public function index()
     {
-$purchases = Purchase::with("items")->get();
-return view('employee.purchases.index', compact('purchases'));
-
-
-
+        $purchases = Purchase::with("items")->get();
+        return view('employee.purchases.index', compact('purchases'));
     }
 
     /**
@@ -28,10 +25,10 @@ return view('employee.purchases.index', compact('purchases'));
      */
     public function create()
     {
-        $products=Product::all();
-        $suppliers=Supplier::all();
-        $categories=Category::all();
-        return view("employee.purchases.create",compact("products","suppliers","categories"));
+        $products = Product::all();
+        $suppliers = Supplier::all();
+        $categories = Category::all();
+        return view("employee.purchases.create", compact("products", "suppliers", "categories"));
     }
 
     /**
@@ -39,41 +36,41 @@ return view('employee.purchases.index', compact('purchases'));
      */
     public function store(Request $request)
     {
-        
-       $purchase=Purchase::create([
-            "supplier_id"=>$request->supplier_id,
-            "total_amount"=>$request->total,
-            "paid_amount"=>$request->paid,
-            "remaining_amount"=>$request->remaining,
-            "date"=>now()
-       ]);
-     
-        $purchase_id=$purchase->id;
 
-          $items=$request->items;
+        $purchase = Purchase::create([
+            "supplier_id" => $request->supplier_id,
+            "total_amount" => $request->total,
+            "paid_amount" => $request->paid,
+            "remaining_amount" => $request->remaining,
+            "date" => now()
+        ]);
 
-          for($i=0;$i<count($items);$i++){
-             $product_id=$items[$i]["product_id"];
-              PurchaseItem::create([
-                    "product_id"=>$items[$i]["product_id"],
-                    "price"=>$items[$i]["price"],
-                    "quantity"=>$items[$i]["quantity"],
-                    "subtotal"=>$items[$i]["subtotal"],
-                    "purchase_id"=>$purchase_id
-              ]);
+        $purchase_id = $purchase->id;
 
-                $product=Product::find($product_id);
-                $current_quantity=$product->quantity;
-                $new_quantity=$current_quantity + $items[$i]["quantity"];
-              Product::where("id",$product_id)->update([
-                    "bought_price"=>$items[$i]["price"],
-                    "quantity"=>$new_quantity
-              ]);
+        $items = $request->items;
 
+        for ($i = 0; $i < count($items); $i++) {
+            $product_id = $items[$i]["product_id"];
+            PurchaseItem::create([
+                "product_id" => $items[$i]["product_id"],
+                "price" => $items[$i]["price"],
+                "quantity" => $items[$i]["quantity"],
+                "subtotal" => $items[$i]["subtotal"],
+                "purchase_id" => $purchase_id
+            ]);
 
-          }
-        
-          return redirect()->route("purchase.index");
+            $product = Product::find($product_id);
+            $current_quantity = $product->quantity;
+            
+            $new_quantity = $current_quantity + $items[$i]["quantity"];
+            Product::where("id", $product_id)->update([
+                "bought_price" => $items[$i]["price"],
+               
+                "quantity" => $new_quantity
+            ]);
+        }
+
+        return redirect()->route("purchase.index");
     }
 
     /**
@@ -81,7 +78,8 @@ return view('employee.purchases.index', compact('purchases'));
      */
     public function show(string $id)
     {
-        //
+        $purchase = Purchase::with("items.product", "supplier")->findOrFail($id);
+        return view("employee.purchases.show", compact("purchase"));
     }
 
     /**

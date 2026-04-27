@@ -53,7 +53,7 @@
             <div class="row mb-4 g-3 mt-2">
                 <div class="col-md-6">
                     <label for="customer-name" class="form-label fw-bold text-secondary mb-2">اسم العميل</label>
-                    <input type="text" name="customer_name" id="customer-name" class="form-control premium-input name" placeholder="أدخل اسم العميل (اختياري / إلزامي)" required>
+                    <input type="text" name="customer_name" id="customer-name" class="form-control premium-input name" placeholder="أدخل اسم العميل (اختياري / إلزامي)" >
                 </div>
                 <div class="col-md-6">
                     <label for="customer-phone" class="form-label fw-bold text-secondary mb-2">رقم الهاتف</label>
@@ -100,37 +100,68 @@
             <button type="button" id="addRow" class="btn btn-light border rounded-pill px-4 py-2 fw-bold text-primary mb-5 shadow-sm transition-all" onmouseover="this.style.background='#e0e7ff'" onmouseout="this.style.background='white'">
                 <i class="fa-solid fa-plus ms-1"></i> سطر منتج جديد
             </button>
+            <!-- Modernized Totals Section -->
+            <div class="row g-4 mt-2">
+                <!-- Inputs Section -->
+                <div class="col-lg-7">
+                    <div class="p-4 rounded-4 shadow-sm h-100" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05);">
+                        <h5 class="fw-bold mb-4 text-dark"><i class="fa-solid fa-calculator me-2 text-primary"></i> حسابات الفاتورة</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="discountAmount" class="form-label fw-bold text-secondary mb-2">الخصم الإجمالي (ج.م)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-2 border-end-0 text-warning"><i class="fa-solid fa-tags"></i></span>
+                                    <input type="number" name="discount" id="discountAmount" class="form-control border-start-0 py-2 fw-bold fs-5 text-dark" value="0" min="0" step="0.01" style="border: 2px solid #f59e0b; background: #fffaf0;">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="paidAmount" class="form-label fw-bold text-secondary mb-2">المبلغ المدفوع (ج.م)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-2 border-end-0 text-success"><i class="fa-solid fa-hand-holding-dollar"></i></span>
+                                    <input type="number" name="paid" id="paidAmount" class="form-control border-start-0 py-2 fw-bold fs-5 text-dark" value="0" min="0" step="0.01" style="border: 2px solid #10b981; background: #f0fdf4;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="row bg-light rounded-4 p-4 border align-items-center mb-2 mt-4">
-                <div class="col-md-4 inputs">
-                    <label for="totalAmount" class="form-label fw-bold text-secondary mb-2">إجمالي الفاتورة المطلوب</label>
-                    <div class="input-group drop-shadow-sm">
-                        <span class="input-group-text bg-white border-2 border-end-0 text-primary py-3">ج.م</span>
-                        <input type="number" name="total" id="totalAmount" class="form-control border-start-0 py-3 fw-bold bg-white fs-5" value="0" readonly style="border: 2px solid #dee2e6;">
+                <!-- Totals Summary Section -->
+                <div class="col-lg-5">
+                    <div class="p-4 rounded-4 shadow-sm position-relative overflow-hidden h-100" style="background: linear-gradient(135deg, #1e293b, #0f172a); color: white; border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent 70%); pointer-events: none;"></div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom border-secondary">
+                            <span class="text-white-50 fw-semibold">إجمالي قبل الخصم</span>
+                            <div class="d-flex align-items-center">
+                                <input type="text" id="subtotalAmount" class="bg-transparent border-0 text-white text-end fw-bold fs-5 p-0" value="0.00" readonly style="width: 100px;">
+                                <span class="ms-1 text-white-50">ج.م</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary">
+                            <span class="text-white-50 fw-semibold">الإجمالي بعد الخصم</span>
+                            <div class="d-flex align-items-center">
+                                <input type="text" name="total" id="totalAmount" class="bg-transparent border-0 text-info text-end fw-bold fs-3 p-0" value="0.00" readonly style="width: 120px; outline: none;">
+                                <span class="ms-1 text-info">ج.م</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center bg-danger bg-opacity-10 rounded-3 p-3 border border-danger border-opacity-25 mt-auto">
+                            <span class="text-danger fw-bold"><i class="fa-solid fa-triangle-exclamation me-2"></i> الباقي (مديونية)</span>
+                            <div class="d-flex align-items-center">
+                                <input type="text" name="remaining" id="remainingAmount" class="bg-transparent border-0 text-danger text-end fw-bold fs-4 p-0" value="0.00" readonly style="width: 100px; outline: none;">
+                                <span class="ms-1 text-danger">ج.م</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 inputs">
-                    <label for="paidAmount" class="form-label fw-bold text-secondary mb-2">المبلغ المدفوع من العميل</label>
-                    <div class="input-group drop-shadow-sm">
-                        <span class="input-group-text bg-white border-2 border-end-0 text-success py-3">ج.م</span>
-                        <input type="number" name="paid" id="paidAmount" class="form-control border-start-0 py-3 fw-bold fs-5" value="0" min="0" step="0.01" style="border: 2px solid #10b981;">
-                    </div>
-                </div>
-                <div class="col-md-4 inputs">
-                    <label for="remainingAmount" class="form-label fw-bold text-secondary mb-2">الباقي (مديونية العميل إذا وجد)</label>
-                    <div class="input-group drop-shadow-sm">
-                        <span class="input-group-text bg-white border-2 border-end-0 text-danger py-3">ج.م</span>
-                        <input type="number" name="remaining" id="remainingAmount" class="form-control border-start-0 py-3 fw-bold bg-white fs-5 text-danger" value="0" readonly style="border: 2px solid #dee2e6;">
-                    </div>
-                </div>
-                
-                <div class="col-12 mt-5 text-end">
-                    <button type="submit" class="btn rounded-pill px-5 py-3 fw-bold shadow-sm text-white" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); font-size: 1.1rem;">
-                        <i class="fa-solid fa-check-double ms-2"></i> حفظ فاتورة المبيعات
+
+                <div class="col-12 mt-4 text-end">
+                    <button type="submit" class="btn rounded-pill px-5 py-3 fw-bold shadow-lg text-white d-inline-flex align-items-center gap-2" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); font-size: 1.1rem; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px -5px rgba(79, 70, 229, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 0.5rem 1rem rgba(0, 0, 0, 0.15)';">
+                        <i class="fa-solid fa-check-double ms-1"></i> حفظ فاتورة المبيعات
                     </button>
                 </div>
             </div>
-
         </div>
     </form>
 </div>

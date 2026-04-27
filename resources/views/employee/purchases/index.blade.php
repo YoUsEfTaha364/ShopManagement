@@ -12,85 +12,77 @@
             </div>
             <div>
                 <h3 class="fw-bold text-dark mb-1">فواتير سابقة (البضائع المضافة)</h3>
-                <p class="text-secondary mb-0">سجل مفصل لكل المشتريات المدخلة مسبقاً.</p>
+                <p class="text-secondary mb-0">سجل إجمالي واستعراض مبسط لكل فواتير المشتريات.</p>
             </div>
         </div>
-        <a href="{{route('purchase.create')}}" class="btn fw-bold px-4 py-2 rounded-pill text-white shadow-sm" style="background: linear-gradient(135deg, #4f46e5, #7c3aed);">
-            <i class="fa-solid fa-plus ms-1"></i> فاتورة مشتريات جديدة
+        <a href="{{route('purchase.create')}}" class="btn fw-bold px-4 py-2 rounded-pill text-white shadow d-flex align-items-center gap-2" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fa-solid fa-plus"></i> فاتورة مشتريات جديدة
         </a>
     </div>
 
-    <!-- Purchases Grid -->
-    <div class="row g-4">
-        @forelse($purchases as $purchase)
-        <div class="col-xl-6 col-lg-12">
-            <div class="card h-100 premium-card" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border-radius: 20px; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid rgba(255,255,255,0.5); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                <div class="card-header bg-transparent border-bottom p-4 d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center border shadow-sm" style="width: 48px; height: 48px;">
-                            <i class="fa-solid fa-building text-primary fs-5"></i>
-                        </div>
-                        <div>
-                            <h5 class="fw-bold text-dark mb-1">{{$purchase->supplier->name ?? 'غير معروف'}}</h5>
-                            <span class="text-secondary small fw-bold"><i class="fa-regular fa-calendar me-1"></i> {{$purchase->date}}</span>
-                        </div>
-                    </div>
-                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2 fw-bold shadow-sm">
-                        #INV-{{ \Str::padLeft($purchase->id, 4, '0') }}
-                    </span>
-                </div>
-                
-                <div class="card-body p-0">
-                    <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
-                        <table class="table table-hover align-middle text-center m-0" style="font-size: 0.95rem;">
-                            <thead style="background: #f8fafc; color: #64748b; font-weight: 700; position: sticky; top: 0; z-index: 1;">
-                                <tr>
-                                    <th class="py-3 border-0">اسم المنتج</th>
-                                    <th class="py-3 border-0">العدد</th>
-                                    <th class="py-3 border-0">السعر</th>
-                                    <th class="py-3 border-0">الإجمالي</th>
-                                </tr>
-                            </thead>
-                            <tbody class="border-top-0">
-                                @forelse ($purchase->items as $item)
-                                <tr>
-                                    <td class="py-3 text-dark fw-bold"><i class="fa-solid fa-box text-muted ms-2 opacity-50"></i> {{$item->product->name ?? 'منتج محذوف'}}</td>
-                                    <td class="py-3 text-secondary fw-bold">{{$item->quantity}}</td>
-                                    <td class="py-3 text-secondary fw-bold">{{ number_format($item->price, 2) }}</td>
-                                    <td class="py-3 text-success fw-bold">{{ number_format($item->subtotal, 2) }}</td>
-                                </tr>
-                                @empty
-                                <tr><td colspan="4" class="py-3 text-muted">لا توجد منتجات مسجلة</td></tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="card-footer bg-light border-top-0 p-4">
-                    <div class="row text-center g-3 rounded-3" style="background: white; border: 1px solid #e2e8f0;">
-                        <div class="col-4 py-3">
-                            <span class="d-block text-secondary small fw-bold mb-1">💰 إجمالي الفاتورة</span>
-                            <span class="fw-bold fs-5 text-dark">{{ number_format($purchase->total_amount, 2) }}</span>
-                        </div>
-                        <div class="col-4 border-start border-end py-3">
-                            <span class="d-block text-secondary small fw-bold mb-1">✅ تم دفعه</span>
-                            <span class="fw-bold fs-5 text-success">{{ number_format($purchase->paid_amount, 2) }}</span>
-                        </div>
-                        <div class="col-4 py-3" style="background: rgba(225,29,72,0.05);">
-                            <span class="d-block text-danger small fw-bold mb-1">⌛ متبقي (مديونية)</span>
-                            <span class="fw-bold fs-5 text-danger">{{ number_format($purchase->remaining_amount, 2) }}</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- Purchases Table -->
+    <div class="card premium-card border-0 mb-4" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border-radius: 20px; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid rgba(255,255,255,0.5);">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle text-center m-0" style="font-size: 1.05rem;">
+                    <thead style="background: #f8fafc; color: #64748b; font-weight: 700;">
+                        <tr>
+                            <th class="py-4 border-0">رقم الفاتورة</th>
+                            <th class="py-4 border-0">المورد</th>
+                            <th class="py-4 border-0">التاريخ</th>
+                            <th class="py-4 border-0">الإجمالي</th>
+                            <th class="py-4 border-0">المدفوع</th>
+                            <th class="py-4 border-0">الباقي (مديونية)</th>
+                            <th class="py-4 border-0">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-top-0">
+                        @forelse($purchases as $purchase)
+                        <tr style="transition: all 0.2s;" onmouseover="this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.backgroundColor='transparent';">
+                            <td class="py-4 fw-bold text-dark">
+                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill fs-6 shadow-sm">
+                                    #INV-{{ \Str::padLeft($purchase->id, 4, '0') }}
+                                </span>
+                            </td>
+                            <td class="py-4 fw-bold text-dark">
+                                <div class="d-flex align-items-center justify-content-center gap-2">
+                                    <span class="bg-light p-2 rounded-circle border shadow-sm" style="width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;"><i class="fa-solid fa-building text-primary opacity-75"></i></span>
+                                    <span>{{$purchase->supplier->name ?? 'غير معروف'}}</span>
+                                </div>
+                            </td>
+                            <td class="py-4 text-secondary fw-semibold" dir="ltr">
+                                <i class="fa-regular fa-calendar text-primary opacity-50 me-1"></i> {{$purchase->date}}
+                            </td>
+                            <td class="py-4 text-dark fw-bold">{{ number_format($purchase->total_amount, 2) }} <span class="text-secondary small">ج.م</span></td>
+                            <td class="py-4 text-success fw-bold">{{ number_format($purchase->paid_amount, 2) }} <span class="text-secondary small">ج.م</span></td>
+                            <td class="py-4 text-danger fw-bold">
+                                @if($purchase->remaining_amount > 0)
+                                    {{ number_format($purchase->remaining_amount, 2) }} <span class="text-secondary small">ج.م</span>
+                                @else
+                                    <span class="text-success small fw-bold"><i class="fa-solid fa-check-circle me-1"></i> مسددة</span>
+                                @endif
+                            </td>
+                            <td class="py-4">
+                                <a href="{{ route('purchase.show', $purchase->id) }}" class="btn px-4 py-2 rounded-pill fw-bold shadow-sm d-inline-flex align-items-center justify-content-center gap-2 text-white" 
+                                        style="background: linear-gradient(135deg, #3b82f6, #2563eb); border: none; font-size: 0.95rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                    <i class="fa-solid fa-folder-open"></i> تفاصيل الفاتورة
+                                </a>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="py-5 text-center mt-5">
+                                <div class="opacity-50">
+                                    <i class="fa-solid fa-folder-open fs-1 text-secondary mb-3 mt-3"></i>
+                                    <h5 class="text-secondary fw-bold">لا توجد فواتير مشتريات مسجلة بعد</h5>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
-        @empty
-            <div class="col-12 text-center py-5 opacity-50 mt-5">
-                <i class="fa-solid fa-folder-open fs-1 text-secondary mb-3"></i>
-                <h4 class="text-secondary fw-bold">لا توجد فواتير مشتريات مسجلة بعد</h4>
-            </div>
-        @endforelse
     </div>
 </div>
 @endsection

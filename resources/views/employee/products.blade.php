@@ -235,7 +235,7 @@
                 <button class="btn btn-gradient btn-gradient-warning addPercent fw-bold px-4 rounded-pill">
                     <i class="fa-solid fa-percent ms-2"></i> نسبة الزيادة
                 </button>
-                <button class="btn btn-gradient btn-gradient-success addproduct fw-bold px-4 rounded-pill">
+                <button class="btn btn-gradient btn-gradient-success addproduct fw-bold px-4 rounded-pill" onclick="document.getElementById('addProductSection').scrollIntoView({ behavior: 'smooth' });">
                     <i class="fa-solid fa-plus ms-2"></i> إضافة منتج
                 </button>
                 <div class="bg-white rounded-pill px-4 py-2 shadow-sm d-flex align-items-center gap-2 text-dark fw-bold ms-2">
@@ -333,7 +333,7 @@
     </div>
 
     <!-- Add Product Form -->
-    <div class="card premium-card mt-5 mb-5">
+    <div id="addProductSection" class="card premium-card mt-5 mb-5">
 
         <div class="card-header premium-header-success d-flex align-items-center">
             <div class="bg-white bg-opacity-25 rounded-circle p-2 ms-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
@@ -361,10 +361,10 @@
                         <label class="form-label fw-bold text-muted mb-2">تصنيف المنتح (النوع)</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light border-2 border-end-0 text-secondary"><i class="fa-solid fa-list"></i></span>
-                            <select name="category" class="form-select form-select-premium border-start-0" required>
+                            <select name="category_id" class="form-select form-select-premium border-start-0" required>
                                 <option value="" selected disabled>-- اختر نوع المنتج --</option>
                                 @foreach ($categories as $category)
-                                    <option value='{"id":{{ $category->id }},"name":"{{ $category->name }}"}'>{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -409,6 +409,11 @@
     </div>
 
 </div>
+
+<form id="percentageForm" action="{{ route('product.addPercentage') }}" method="POST" class="d-none">
+    @csrf
+    <input type="hidden" name="percentage" id="percentageInput">
+</form>
 @endsection
 
 @push("scripts")

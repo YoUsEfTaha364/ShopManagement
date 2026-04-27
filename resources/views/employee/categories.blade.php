@@ -306,7 +306,7 @@
                                     </button>
                                 </td>
                                 <td>
-                                    <form action="{{ route('category.delete', $category['id']) }}" method="post" class="d-inline">
+                                    <form action="{{ route('category.delete', $category) }}" method="post" class="d-inline">
                                         @csrf
                                         @method("delete")
                                         <button type="submit" class="btn btn-gradient-danger btn-sm px-4 py-2 rounded-pill shadow-sm" onclick="return confirm('هل أنت متأكد من حذف هذا القسم نهائياً؟');">

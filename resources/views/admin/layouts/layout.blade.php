@@ -99,13 +99,14 @@
             </div>
 
             <nav class="nav flex-column gap-2">
-                <a href="#" class="premium-sidebar-link active">
+                <a href="{{ route("admin.home") }}" class="premium-sidebar-link {{ request()->routeIs('admin.home') ? 'active' : '' }}">
                     <i class="fas fa-gauge-high me-3 w-20px"></i> الرئيسية
                 </a>
-                <a href="{{route('supplier.index')}}" class="premium-sidebar-link">
+                <a href="{{ route('supplier.index') }}" class="premium-sidebar-link {{ request()->routeIs('supplier.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-truck-field me-3 w-20px"></i> الموردون
                 </a>
-                <a href="{{route('admin.sales.index')}}" class="premium-sidebar-link">
+                <!-- We will assume the sales route uses the appropriate name, updating to sales.index for safety if admin.sales.index isn't defined -->
+                <a href="{{ route('admin.sales.index') }}" class="premium-sidebar-link {{ request()->routeIs('admin.sales.*') ? 'active' : '' }}">
                     <i class="fas fa-chart-pie me-3 w-20px"></i> المبيعات
                 </a>
                 <a href="{{ route('home.index') }}" class="premium-sidebar-link mt-4 border border-secondary border-opacity-50">

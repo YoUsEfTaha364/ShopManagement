@@ -60,7 +60,7 @@ class Payment_Supplier_controller extends Controller
 
          }
         
-        return redirect()->route("supplier.index");
+        return redirect()->back()->with('success', 'تم سداد الدفعة بنجاح');
     }
 
     /**

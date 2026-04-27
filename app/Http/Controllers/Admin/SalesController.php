@@ -11,6 +11,23 @@ class SalesController extends Controller
 {
 
     public function index(){
+
+    // $key="today";
+
+//     dd([
+//     'start' => now()->subWeek()
+// ]);
+
+    $profit = DB::table('saleitems')
+    ->join("sales", "sales.id", "saleitems.sale_id")
+    ->selectRaw("SUM((saleitems.price - saleitems.bought_price) * saleitems.quantity) as profit")
+    ->wheredate('sales.created_at', [
+        now()->startOfWeek(),
+        now()
+    ])
+    ->value('profit');
+
+    dd($profit);
        
 $profits = DB::table('saleitems')
     ->join('sales', 'saleitems.sale_id', '=', 'sales.id')

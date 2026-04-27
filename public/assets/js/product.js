@@ -32,7 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 cancelButtonText: 'إلغاء'
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
-                    window.location.href = `/product/increase-percent?value=${result.value}`;
+                    let form = document.getElementById('percentageForm');
+                    if (form) {
+                        document.getElementById('percentageInput').value = result.value;
+                        form.submit();
+                    }
                 }
             });
         });
