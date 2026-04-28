@@ -12,7 +12,7 @@ class Categorycontroller extends Controller
      */
     public function index()
     {
-        $categories=Category::all();
+        $categories=Category::paginate(5);
         $count=Category::count();
         
         return view("employee.categories", compact('categories', 'count'));

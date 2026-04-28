@@ -85,6 +85,11 @@
             </div>
         </div>
     </div>
+    
+    <!-- Pagination Links -->
+    <div class="d-flex justify-content-center mt-4 mb-5" dir="ltr">
+        {{ $depts->links('pagination::bootstrap-5') }}
+    </div>
 
 </div>
 

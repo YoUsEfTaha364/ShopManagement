@@ -47,8 +47,6 @@ class Payment_Supplier_controller extends Controller
                 "purchase_id"=>$purchase->id,
                 "paid"=>$apply,
                 "date"=>now()
-
-
             ]);
 
             $value-=$apply;
@@ -63,17 +61,13 @@ class Payment_Supplier_controller extends Controller
         return redirect()->back()->with('success', 'تم سداد الدفعة بنجاح');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
     public function edit(string $id)
     {
         //

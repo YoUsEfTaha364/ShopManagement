@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PurchaseIndexRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Purchase;
@@ -14,9 +15,10 @@ class Purchasecontroller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(PurchaseIndexRequest $request, \App\Services\PurchaseService $purchaseService)
     {
-        $purchases = Purchase::with("items")->get();
+        $filters = $request->validated();
+        $purchases = $purchaseService->getPurchases($filters, 5);
         return view('employee.purchases.index', compact('purchases'));
     }
 
@@ -78,8 +80,9 @@ class Purchasecontroller extends Controller
      */
     public function show(string $id)
     {
-        $purchase = Purchase::with("items.product", "supplier")->findOrFail($id);
-        return view("employee.purchases.show", compact("purchase"));
+        $purchase = Purchase::with("supplier")->findOrFail($id);
+        $items = $purchase->items()->with("product")->paginate(5);
+        return view("employee.purchases.show", compact("purchase", "items"));
     }
 
     /**

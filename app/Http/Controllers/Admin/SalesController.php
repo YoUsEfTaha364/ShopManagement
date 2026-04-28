@@ -10,46 +10,38 @@ use Illuminate\Support\Facades\DB;
 class SalesController extends Controller
 {
 
-    public function index(){
+    public function index(Request $request){
+        $query = DB::table('saleitems')
+            ->join('sales', 'saleitems.sale_id', '=', 'sales.id')
+            ->join('products', 'saleitems.product_id', '=', 'products.id')
+            ->selectRaw("DATE(sales.created_at) as sale_date, SUM((saleitems.price - saleitems.bought_price) * saleitems.quantity) as total_profit");
 
-    // $key="today";
+        if ($request->has('date') && !empty($request->date)) {
+            $query->whereDate('sales.created_at', $request->date);
+        }
 
-//     dd([
-//     'start' => now()->subWeek()
-// ]);
+        if ($request->has('period')) {
+            $now = now();
+            if ($request->period == 'today') {
+                $query->whereDate('sales.created_at', today());
+            } elseif ($request->period == 'last_week') {
+                $query->whereBetween('sales.created_at', [$now->copy()->subWeek()->startOfDay(), $now->copy()->endOfDay()]);
+            } elseif ($request->period == 'last_month') {
+                $query->whereBetween('sales.created_at', [$now->copy()->subMonth()->startOfDay(), $now->copy()->endOfDay()]);
+            }
+        }
 
-    $profit = DB::table('saleitems')
-    ->join("sales", "sales.id", "saleitems.sale_id")
-    ->selectRaw("SUM((saleitems.price - saleitems.bought_price) * saleitems.quantity) as profit")
-    ->wheredate('sales.created_at', [
-        now()->startOfWeek(),
-        now()
-    ])
-    ->value('profit');
+        $profits = $query->groupByRaw("DATE(sales.created_at)")
+            ->orderBy("sale_date")
+            ->paginate(5);
 
-    dd($profit);
-       
-$profits = DB::table('saleitems')
-    ->join('sales', 'saleitems.sale_id', '=', 'sales.id')
-    ->join('products', 'saleitems.product_id', '=', 'products.id')
-    ->selectRaw("DATE(sales.created_at) as sale_date, SUM((products.sold_price - products.bought_price) * saleitems.quantity) as total_profit")
-    ->groupByRaw("DATE(sales.created_at)")
-    ->orderBy("sale_date")
-    ->get();
+        // Append query to pagination links
+        $profits->appends($request->all());
 
-
-    return view("admin.sales", compact("profits"));
-
+        return view("admin.sales", compact("profits"));
     }
-//      public function getDaySales(Request $request){
-// //         $date=$request->date;
-// //         $day=date("d",strtotime($date));
-// //   $date = $request->date; // e.g. "2025-09-29"
 
-
-//     }
-
-       
+ 
 
 
 }

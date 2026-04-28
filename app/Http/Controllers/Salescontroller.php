@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaleIndexRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
+use App\Models\SalePayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class Salescontroller extends Controller
 {
 
-    public function index()
+    public function index(SaleIndexRequest $request, \App\Services\SaleService $saleService)
     {
-        // $items=SaleItem::with("sale")->get();
-        $sales = Sale::with("items")->get();
-        $items = SaleItem::with("product")->get();
+        $filters = $request->validated();
+        $sales = $saleService->getSales($filters, 5);
 
-        return view("employee.sales.index", compact("sales", "items"));
+        return view("employee.sales.index", compact("sales"));
     }
 
     /**
@@ -135,7 +136,7 @@ class Salescontroller extends Controller
     public function showSaleItems($id)
     {
         $sale = Sale::findOrFail($id);
-        $items = SaleItem::where("sale_id", $id)->get();
+        $items = SaleItem::where("sale_id", $id)->paginate(5);
 
         return view("employee.sales.show-saleitems", compact("items", "sale"));
     }

@@ -13,15 +13,28 @@ class Productcontroller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-           $products = Product::with('category')->get();
-           $categories = Category::all();
+        $query = Product::with('category');
 
-           $count=Product::count();
+        if ($request->filled("search")) {
+            $query->where("name", "like", "%" . $request->search . "%");
+        }
 
-        return view("employee.products", compact("count", "products", "categories"));
-        
+        if ($request->has("dangerous_count")) {
+            $query->where("quantity", "<", 5);
+        }
+
+        if ($request->has("empty")) {
+            $query->where("quantity", 0);
+        }
+
+        $products = $query->paginate(5);
+        $categories = Category::all();
+        $productNames = Product::pluck('name');
+        $count = Product::count();
+
+        return view("employee.products", compact("count", "products", "categories", "productNames"));
     }
 
     /**

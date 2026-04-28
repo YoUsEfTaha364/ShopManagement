@@ -23,7 +23,7 @@ class Suppliercontroller extends Controller
                 DB::raw('SUM(remaining_amount) as remaining')
             )
             ->groupBy('suppliers.id', 'suppliers.name')
-            ->get();
+            ->paginate(10);
 
   
 

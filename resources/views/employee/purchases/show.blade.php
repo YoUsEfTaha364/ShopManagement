@@ -100,7 +100,7 @@
                         </tr>
                     </thead>
                     <tbody class="border-top-0">
-                        @forelse($purchase->items as $item)
+                        @forelse($items as $item)
                         <tr style="transition: all 0.2s;" onmouseover="this.style.backgroundColor='#f1f5f9';" onmouseout="this.style.backgroundColor='transparent';">
                             <td class="py-4 text-dark fw-bold">
                                 <div class="d-flex align-items-center justify-content-center gap-2">
@@ -128,6 +128,10 @@
                 </table>
             </div>
         </div>
+    </div>
+    <!-- Pagination Links -->
+    <div class="d-flex justify-content-center mt-4 mb-5" dir="ltr">
+        {{ $items->links('pagination::bootstrap-5') }}
     </div>
 
 </div>

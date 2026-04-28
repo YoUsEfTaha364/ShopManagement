@@ -27,16 +27,32 @@
     <div class="card mb-4" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border-radius: 16px; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
         <div class="card-body p-4">
             <div class="row g-3 align-items-center">
-                <div class="col-md-auto">
-                    <i class="fa-solid fa-circle-info text-primary fs-5 me-2"></i>
-                    <span class="fw-bold text-secondary">يتم عرض أرباح جميع الأيام مرتبةً تصاعدياً بالتاريخ.</span>
-                </div>
-                <div class="col-md-4">
-                    <label for="date" class="form-label fw-bold text-secondary mb-2">تصفية حسب التاريخ:</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-white border-2 border-end-0 text-primary rounded-end-pill ps-4"><i class="fa-regular fa-calendar"></i></span>
-                        <input type="date" id="date" class="form-control border-start-0 rounded-start-pill py-2" style="border: 2px solid #dee2e6;" disabled title="ميزة التصفية غير متاحة حالياً">
+                <div class="col-12 col-md-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-secondary fw-bold"><i class="fa-solid fa-clock-rotate-left me-1"></i> تصفية سريعة:</span>
+                        <a href="{{ route('admin.sales.index', ['period' => 'today']) }}" class="btn btn-sm {{ request('period') == 'today' ? 'btn-primary' : 'btn-outline-primary' }} rounded-pill px-3">اليوم</a>
+                        <a href="{{ route('admin.sales.index', ['period' => 'last_week']) }}" class="btn btn-sm {{ request('period') == 'last_week' ? 'btn-primary' : 'btn-outline-primary' }} rounded-pill px-3">آخر أسبوع</a>
+                        <a href="{{ route('admin.sales.index', ['period' => 'last_month']) }}" class="btn btn-sm {{ request('period') == 'last_month' ? 'btn-primary' : 'btn-outline-primary' }} rounded-pill px-3">آخر شهر</a>
+                        @if(request('period'))
+                            <a href="{{ route('admin.sales.index') }}" class="btn btn-sm btn-outline-danger rounded-circle px-2" title="إلغاء التصفية"><i class="fa-solid fa-times"></i></a>
+                        @endif
                     </div>
+                </div>
+                <div class="col-12 col-md-4 ms-auto">
+                    <form action="{{ route('admin.sales.index') }}" method="GET">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-2 border-end-0 text-primary rounded-end-pill ps-4"><i class="fa-regular fa-calendar"></i></span>
+                            <input type="date" name="date" id="date" value="{{ request('date') }}" class="form-control border-start-0 py-2" style="border: 2px solid #dee2e6;" onchange="this.form.submit()">
+                            
+                            @if(request('date'))
+                                <a href="{{ route('admin.sales.index') }}" class="btn btn-outline-danger rounded-start-pill border-2 border-start-0" title="إلغاء التصفية">
+                                    <i class="fa-solid fa-times"></i>
+                                </a>
+                            @else
+                                <span class="input-group-text bg-white border-2 border-start-0 rounded-start-pill pe-4"></span>
+                            @endif
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

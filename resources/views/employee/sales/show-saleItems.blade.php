@@ -169,6 +169,10 @@
                     </div>
                 </div>
             </div>
+            <!-- Pagination Links -->
+            <div class="d-flex justify-content-center mt-3 mb-2" dir="ltr">
+                {{ $items->links('pagination::bootstrap-5') }}
+            </div>
         </div>
 
         <!-- Left Column: Payments History -->

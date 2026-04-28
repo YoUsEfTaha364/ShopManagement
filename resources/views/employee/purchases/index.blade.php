@@ -20,6 +20,32 @@
         </a>
     </div>
 
+    <!-- Filters -->
+    <form action="{{ route('purchase.index') }}" method="GET" class="card premium-card border-0 mb-4 shadow-sm" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border-radius: 20px; padding: 1.5rem;">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+                <div class="form-check form-switch" style="font-size: 1.1rem;">
+                    <input class="form-check-input" type="checkbox" name="last_purchases" id="last_purchases" value="1" {{ request('last_purchases') ? 'checked' : '' }}>
+                    <label class="form-check-label ms-2 fw-bold text-dark" for="last_purchases">ترتيب تنازلي (الأحدث أولاً)</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-check form-switch" style="font-size: 1.1rem;">
+                    <input class="form-check-input" type="checkbox" name="has_remaining" id="has_remaining" value="1" {{ request('has_remaining') ? 'checked' : '' }}>
+                    <label class="form-check-label ms-2 fw-bold text-dark" for="has_remaining">فواتير بها ديون (باقي)</label>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex gap-2 justify-content-end">
+                <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); border: none;">
+                    <i class="fa-solid fa-filter ms-1"></i> تصفية
+                </button>
+                <a href="{{ route('purchase.index') }}" class="btn btn-light rounded-pill px-4 border shadow-sm text-dark">
+                    <i class="fa-solid fa-rotate-right ms-1"></i> تفريغ
+                </a>
+            </div>
+        </div>
+    </form>
+
     <!-- Purchases Table -->
     <div class="card premium-card border-0 mb-4" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border-radius: 20px; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid rgba(255,255,255,0.5);">
         <div class="card-body p-0">
@@ -51,7 +77,7 @@
                                 </div>
                             </td>
                             <td class="py-4 text-secondary fw-semibold" dir="ltr">
-                                <i class="fa-regular fa-calendar text-primary opacity-50 me-1"></i> {{$purchase->date}}
+                                <i class="fa-regular fa-calendar text-primary opacity-50 me-1"></i> {{ \Carbon\Carbon::parse($purchase->date)->format('Y-m-d') }}
                             </td>
                             <td class="py-4 text-dark fw-bold">{{ number_format($purchase->total_amount, 2) }} <span class="text-secondary small">ج.م</span></td>
                             <td class="py-4 text-success fw-bold">{{ number_format($purchase->paid_amount, 2) }} <span class="text-secondary small">ج.م</span></td>
@@ -65,7 +91,7 @@
                             <td class="py-4">
                                 <a href="{{ route('purchase.show', $purchase->id) }}" class="btn px-4 py-2 rounded-pill fw-bold shadow-sm d-inline-flex align-items-center justify-content-center gap-2 text-white" 
                                         style="background: linear-gradient(135deg, #3b82f6, #2563eb); border: none; font-size: 0.95rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                                    <i class="fa-solid fa-folder-open"></i> تفاصيل الفاتورة
+                                    <i class="fa-solid fa-folder-open"></i> تفاصيل
                                 </a>
                             </td>
                         </tr>
@@ -74,7 +100,7 @@
                             <td colspan="7" class="py-5 text-center mt-5">
                                 <div class="opacity-50">
                                     <i class="fa-solid fa-folder-open fs-1 text-secondary mb-3 mt-3"></i>
-                                    <h5 class="text-secondary fw-bold">لا توجد فواتير مشتريات مسجلة بعد</h5>
+                                    <h5 class="text-secondary fw-bold">لا توجد فواتير مشتريات مطابقة</h5>
                                 </div>
                             </td>
                         </tr>
@@ -83,6 +109,10 @@
                 </table>
             </div>
         </div>
+    </div>
+    
+    <div class="d-flex justify-content-center mt-4 mb-5" dir="ltr">
+        {{ $purchases->appends(request()->query())->links('pagination::bootstrap-5') }}
     </div>
 </div>
 @endsection

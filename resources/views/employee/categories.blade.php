@@ -332,6 +332,12 @@
                 </table>
             </div>
         </div>
+
+         @if($categories->hasPages())
+            <div class="pagination-wrapper d-flex justify-content-center">
+                {{ $categories->appends(request()->query())->links() }}
+            </div>
+        @endif
     </div>
 
 </div>
