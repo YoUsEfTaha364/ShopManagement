@@ -125,9 +125,7 @@ You can create an admin user manually or via seeder (if available).
 
 ---
 
-## 📷 Screenshots
 
-*(Add screenshots here if available)*
 
 ---
 
