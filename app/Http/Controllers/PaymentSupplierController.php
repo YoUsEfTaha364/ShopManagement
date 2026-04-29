@@ -7,7 +7,7 @@ use App\Models\SupplierPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class Payment_Supplier_controller extends Controller
+class PaymentSupplierController extends Controller
 {
     /**
      * Display a listing of the resource.

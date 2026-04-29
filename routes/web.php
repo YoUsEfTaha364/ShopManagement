@@ -3,7 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Categorycontroller;
 use App\Http\Controllers\Homecontroller;
-use App\Http\Controllers\Payment_Supplier_controller;
+use App\Http\Controllers\PaymentSupplierController;
 use App\Http\Controllers\Productcontroller;
 use App\Http\Controllers\Purchasecontroller;
 use App\Http\Controllers\Salescontroller;
@@ -63,7 +63,7 @@ Route::middleware("auth")->get("supplier/show/{id}", [Suppliercontroller::class,
 Route::middleware("auth")->post("supplier/store", [Suppliercontroller::class, "store"])->name("supplier.store");
 
     //payment supplier
-Route::middleware("auth")->post("payment/store", [Payment_Supplier_controller::class, "store"])->name("payment.store");
+Route::middleware("auth")->post("payment/store", [PaymentSupplierController::class, "store"])->name("payment.store");
 
 
        // admin routes
