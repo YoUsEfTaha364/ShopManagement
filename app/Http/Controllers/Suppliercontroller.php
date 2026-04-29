@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SupplierIndexRequest;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -10,27 +11,13 @@ use Illuminate\Support\Facades\DB;
 class Suppliercontroller extends Controller
 {
 
-    public function index()
+    public function index(SupplierIndexRequest $request, \App\Services\SupplierService $supplierService)
     {
-        $suppliers = Supplier::all();
-        $results = DB::table('suppliers')
-            ->join("purchases", 'suppliers.id', '=', 'purchases.supplier_id')
-            ->select(
-                'suppliers.id as supplier_id',
-                'suppliers.name',
-                DB::raw('SUM(total_amount) as total'),
-                DB::raw('SUM(paid_amount) as paid'),
-                DB::raw('SUM(remaining_amount) as remaining')
-            )
-            ->groupBy('suppliers.id', 'suppliers.name')
-            ->paginate(10);
+        $filters = $request->validated();
+        $depts = $supplierService->getSuppliersDebts($filters, 10);
+        $suppliers = Supplier::all(); // keeping this in case it's used somewhere in layout
 
-  
-
-
-
-
-        return view("admin.suppliers.index", ["suppliers" => $suppliers, "depts" => $results]);
+        return view("admin.suppliers.index", ["suppliers" => $suppliers, "depts" => $depts]);
     }
 
     /**

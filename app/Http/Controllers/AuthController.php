@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class AuthController extends Controller
+{
+     public function register(Request $request){
+        
+
+        $user=  User::create([
+            "name"=>$request->name,
+            "email"=>$request->email,
+            "password"=>Hash::make($request->password)
+          ]);
+
+          Auth::login($user);
+
+
+          return redirect()->route('home.index');
+
+
+
+     }
+     public function login(Request $request){
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route("home.index");
+        }
+
+        return back()->withErrors(['email' => 'Invalid credentials']);
+
+     }
+     public function show_login(){
+
+     return view("employee.auth.login");
+         
+     }
+     public function show_register(){
+
+       return view("employee.auth.register");
+         
+     }
+     public function logout(){
+
+     Auth::logout();
+
+       return redirect()->route("employee.show.login");
+         
+     }
+}

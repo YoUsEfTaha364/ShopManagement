@@ -18,10 +18,32 @@
         </div>
     </div>
 
-
-
-
-    <!-- Suppliers Table Card -->
+    <!-- Filters -->
+    <form action="{{ route('supplier.index') }}" method="GET" class="card premium-card border-0 mb-4 shadow-sm" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border-radius: 20px; padding: 1.5rem;">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 text-primary border-primary border-opacity-25"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" name="name" class="form-control border-start-0 ps-0 border-primary border-opacity-25" placeholder="بحث باسم المورد..." value="{{ request('name') }}" style="box-shadow: none;">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <select name="debt_status" class="form-select border-primary border-opacity-25" style="font-size: 1.05rem; box-shadow: none;">
+                    <option value="">جميع الموردين (الكل)</option>
+                    <option value="has_debt" {{ request('debt_status') == 'has_debt' ? 'selected' : '' }}>موردين لهم أموال (متبقي أكبر من 0)</option>
+                    <option value="no_debt" {{ request('debt_status') == 'no_debt' ? 'selected' : '' }}>موردين مسددين (متبقي يساوي 0)</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex gap-2 justify-content-end">
+                <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); border: none;">
+                    <i class="fa-solid fa-filter ms-1"></i> تصفية
+                </button>
+                <a href="{{ route('supplier.index') }}" class="btn btn-light rounded-pill px-4 border shadow-sm text-dark">
+                    <i class="fa-solid fa-rotate-right ms-1"></i> تفريغ
+                </a>
+            </div>
+        </div>
+    </form>    <!-- Suppliers Table Card -->
     <div class="card premium-card border-0 mb-4" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(16px); border-radius: 20px; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid rgba(255,255,255,0.5);">
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -88,7 +110,7 @@
     
     <!-- Pagination Links -->
     <div class="d-flex justify-content-center mt-4 mb-5" dir="ltr">
-        {{ $depts->links('pagination::bootstrap-5') }}
+        {{ $depts->appends(request()->query())->links('pagination::bootstrap-5') }}
     </div>
 
 </div>

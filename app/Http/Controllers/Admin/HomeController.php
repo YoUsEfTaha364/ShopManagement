@@ -15,6 +15,7 @@ class HomeController extends Controller
     public function index(){
 
     $today_sales=Sale::whereDate("created_at",today())->sum("total_price");
+    // dd($today_sales);
     
     $today_profit= DB::table('saleitems')
         ->join('sales', 'sales.id', '=', 'saleitems.sale_id')

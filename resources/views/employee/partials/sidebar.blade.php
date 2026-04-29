@@ -11,7 +11,7 @@
 
     <!-- Navigation -->
     <nav class="nav flex-column gap-2">
-        <a href="{{ route('admin') }}" class="nav-link premium-sidebar-link">
+        <a href="{{ route('admin.home') }}" class="nav-link premium-sidebar-link">
             <i class="fas fa-shield-halved me-3 w-20px text-center"></i> لوحة التحكم (أدمن)
         </a>
         <a href="{{ route('home.index') }}" class="nav-link premium-sidebar-link {{ request()->routeIs('home.index') ? 'active' : '' }}">
@@ -35,6 +35,14 @@
         <a href="{{ route('purchase.index') }}" class="nav-link premium-sidebar-link {{ request()->routeIs('purchase.index') ? 'active' : '' }}">
             <i class="fa-solid fa-clipboard-list me-3 w-20px text-center"></i> سجل المشتريات
         </a>
+        <form method="POST" action="{{ route('employee.logout') }}">
+    @csrf
+    @method("delete")
+
+    <button type="submit" class="nav-link premium-sidebar-link text-danger border-0 bg-transparent w-100 text-start">
+        <i class="fas fa-right-from-bracket me-3 w-20px text-center"></i> تسجيل الخروج
+    </button>
+</form>
     </nav>
 </aside>
 
